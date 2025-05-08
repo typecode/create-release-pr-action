@@ -1,0 +1,31 @@
+name: 'Create Release PR'
+description: 'Creates a release PR between branches with automatic issue tracking'
+inputs:
+  release_type:
+    description: 'Type of release (Staging or Production)'
+    required: true
+    default: 'Staging Release'
+  github_token:
+    description: 'GitHub token'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Set branch names
+      shell: bash
+      run: |
+        if [ "${{ inputs.release_type }}" == "Staging Release" ]; then
+          echo "SOURCE_BRANCH=develop" >> $GITHUB_ENV
+          echo "TARGET_BRANCH=staging" >> $GITHUB_ENV
+        else
+          echo "SOURCE_BRANCH=staging" >> $GITHUB_ENV
+          echo "TARGET_BRANCH=production" >> $GITHUB_ENV
+        fi
+    - name: Run release PR script
+      shell: bash
+      run: ${{ github.action_path }}/src/create-release-pr.sh
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        SOURCE_BRANCH: ${{ env.SOURCE_BRANCH }}
+        TARGET_BRANCH: ${{ env.TARGET_BRANCH }}
+        RELEASE_TYPE: ${{ inputs.release_type }}
