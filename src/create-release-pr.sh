@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+echo "Testing minor version bump..."
 echo "Identifying PRs merged between $TARGET_BRANCH and $SOURCE_BRANCH..."
 
 # Get the date of the last merge to the target branch
