@@ -72,8 +72,6 @@ echo "Final sorted and unique closes: $CLOSES"
 if [ "$PRS_FOUND" = false ] || [ -z "$CLOSES" ]; then
   echo "WARNING: No PRs or closes found automatically."
   echo "Continuing anyway with a manual placeholder..."
-  # Add a placeholder so the workflow doesn't fail
-  CLOSES="ELE-MANUAL"
 fi
 
 # Create Pull Request
